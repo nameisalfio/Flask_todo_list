@@ -27,11 +27,22 @@ body {
     margin-bottom: 15px;
     background-color: var(--accent-color);
     color: var(--light-text);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    will-change: transform, background-color;
 }
 
 .task-container:hover {
     background-color: #1a4b8c;
     transform: translateY(-2px);
+}
+
+.task-container.dragging {
+    opacity: 0.5;
+}
+
+.task-container.drag-over {
+    border: 2px dashed var(--text-color);
+    background-color: #1a4b8c;
 }
 
 .task-actions button {
