@@ -1,12 +1,13 @@
 DROP TABLE IF EXISTS TASK;
 CREATE TABLE TASK (
-    ID INTEGER PRIMARY KEY,
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
     NAME VARCHAR(255),
     DESCRIPTION VARCHAR(255),
-    STATUS BOOLEAN
+    STATUS BOOLEAN,
+    POSITION INTEGER
 );
 
-INSERT INTO TASK (NAME, DESCRIPTION, STATUS) VALUES 
-    ('Task 1', 'Description 1', 1),
-    ('Task 2', 'Description 2', 0),
-    ('Task 3', 'Description 3', 1);
+INSERT INTO TASK (NAME, DESCRIPTION, STATUS, POSITION) VALUES 
+    ('Task 1', 'Description 1', 1, 1),
+    ('Task 2', 'Description 2', 0, 2),
+    ('Task 3', 'Description 3', 1, 3);

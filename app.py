@@ -29,7 +29,7 @@ def store():
     if last_position is None:
         last_position = 0
 
-    connection.execute('INSERT INTO TASK (NAME, DESCRIPTION, STATUS) VALUES (?, ?, ?, ?)', (name, description, False, last_position + 1))
+    connection.execute('INSERT INTO TASK (NAME, DESCRIPTION, STATUS, POSITION) VALUES (?, ?, ?, ?)', (name, description, False, last_position + 1))
     connection.commit()
     connection.close()
     return redirect(url_for('index'))
