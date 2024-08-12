@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h2>Todo List</h2>
+
+        <!-- List of tasks -->
+        <div class="mt-4">
+            {% for task in tasks %}
+            <div class="task-container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p><strong>Task:</strong> {{ task.NAME }}</p>
+                        <p><strong>Status:</strong> {{ 'Completed' if task.STATUS else 'Incomplete' }}</p>
+                    </div>
+                    
+                    <!-- Buttons for task actions -->
+                    <div class="task-actions d-flex">
+                        <form action="{{ url_for('show', task_id=task.ID) }}" method="GET" class="d-inline">
+                            <button type="submit" class="btn btn-info btn-sm" title="Show Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </form>
+
+                        <form action="{{ url_for('toggle_status', task_id=task.ID) }}" method="POST" class="d-inline">
+                            <input type="hidden" name="status" value="{{ 'True' if task.STATUS else 'False' }}">
+                            <button type="submit" class="btn btn-warning btn-sm" title="Toggle Status">
+                                <i class="fas fa-toggle-on"></i>
+                            </button>
+                        </form>                        
+
+                        <form action="{{ url_for('edit', task_id=task.ID) }}" method="GET" class="d-inline">
+                            <button type="submit" class="btn btn-primary btn-sm" title="Edit Task">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </form>
+
+                        <form action="{{ url_for('delete', task_id=task.ID) }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Task">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Form to create a new task -->
+        <form action="{{ url_for('create') }}" method="GET" class="mt-4">
+            <button type="submit" class="btn btn-success">Create New Task</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

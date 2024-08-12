@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS TASK;
+CREATE TABLE TASK (
+    ID INTEGER PRIMARY KEY,
+    NAME VARCHAR(255),
+    DESCRIPTION VARCHAR(255),
+    STATUS BOOLEAN
+);
+
+INSERT INTO TASK (NAME, DESCRIPTION, STATUS) VALUES 
+    ('Task 1', 'Description 1', 1),
+    ('Task 2', 'Description 2', 0),
+    ('Task 3', 'Description 3', 1);
