@@ -10,11 +10,10 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    query = 'SELECT * FROM TASK'
     connection = get_db_connection()
-    results = connection.execute(query).fetchall()
+    tasks = connection.execute('SELECT * FROM TASK ORDER BY POSITION').fetchall()
     connection.close()
-    return render_template('index.html', tasks=results)
+    return render_template('index.html', tasks=tasks)
 
 @app.route('/create')
 def create():
@@ -25,7 +24,12 @@ def store():
     name = request.form['name']
     description = request.form['description']
     connection = get_db_connection()
-    connection.execute('INSERT INTO TASK (NAME, DESCRIPTION, STATUS) VALUES (?, ?, ?)', (name, description, False))
+
+    last_position = connection.execute('SELECT MAX(POSITION) FROM TASK').fetchone()[0]
+    if last_position is None:
+        last_position = 0
+
+    connection.execute('INSERT INTO TASK (NAME, DESCRIPTION, STATUS) VALUES (?, ?, ?, ?)', (name, description, False, last_position + 1))
     connection.commit()
     connection.close()
     return redirect(url_for('index'))
@@ -73,6 +77,18 @@ def delete(task_id):
     connection.commit()
     connection.close()
     return redirect(url_for('index'))
+
+@app.route('/update_task_order', methods=['POST'])
+def update_task_order():
+    task_order = request.json.get('order', [])    
+    connection = get_db_connection()
+    for task in task_order:
+        connection.execute('UPDATE TASK SET POSITION = ? WHERE ID = ?',(task['position'], task['id']))
+    connection.commit()
+    connection.close()
+
+    return '', 204
+
 
 if __name__ == '__main__':
     app.run(debug=True)

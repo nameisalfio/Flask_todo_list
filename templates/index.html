@@ -6,16 +6,16 @@
     <title>Todo List</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="../static/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="container my-5">
         <h2>Todo List</h2>
 
-        <!-- List of tasks -->
-        <div class="mt-4">
+        <!-- List of tasks with drag-and-drop enabled -->
+        <div class="mt-4" id="taskList">
             {% for task in tasks %}
-            <div class="task-container">
+            <div class="task-container" draggable="true" data-id="{{ task.ID }}">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p><strong>Task:</strong> {{ task.NAME }}</p>
@@ -50,7 +50,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
             {% endfor %}
         </div>
@@ -59,8 +58,9 @@
         <form action="{{ url_for('create') }}" method="GET" class="mt-4">
             <button type="submit" class="btn btn-success">Create New Task</button>
         </form>
-
     </div>
 
+    <!-- Include the drag-and-drop script -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
